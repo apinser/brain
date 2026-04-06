@@ -10,7 +10,7 @@ It must be read at the start of every session involving any of his projects.
 3. Read `general/patterns.md`
 4. Read `decisions/README.md` (ADR index)
 
-If the session involves starting a new project, also read `playbooks/start-new-project.md`.
+If the session involves starting a new project, read `playbooks/start-new-project-interactive.md` and follow its instructions exactly.
 
 ## Domain routing
 Each project declares its active domains in its own `CLAUDE.md` under:
