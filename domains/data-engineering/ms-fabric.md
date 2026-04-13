@@ -34,6 +34,16 @@ logger = logging.getLogger(mssparkutils.runtime.context["currentNotebookName"])
 logger.setLevel(logging.DEBUG)
 ```
 
+**Synapse notebooks only** — Synapse does not pre-configure the handler; add a `StreamHandler` explicitly to display logs in cell output:
+```python
+if not logger.handlers:
+    _handler = logging.StreamHandler(sys.stdout)
+    _handler.setLevel(logging.DEBUG)
+    _handler.setFormatter(logging.Formatter("%(asctime)s [%(levelname)s] %(message)s"))
+    logger.addHandler(_handler)
+    logger.propagate = False
+```
+
 ## Spark session
 Standard configuration applied in every ingestion notebook:
 ```python
@@ -75,6 +85,30 @@ Supported source patterns (one `*IngestionConfig` class per source type, JSON-co
 - REST API + JSON (`RestApiJsonIngestionConfig`)
 
 Each config class must implement a `validate()` method — called at startup before any data movement.
+
+## Notebook output to pipeline
+When a notebook is called by a Fabric pipeline, return a value via:
+```python
+mssparkutils.notebook.exit(value)
+```
+- `value` is a string — typically an HTML report or JSON summary
+- The calling pipeline can capture this in an activity output variable
+- Standard pattern: build an HTML summary from the audit table, return it for display or downstream logging
+
+## Azure Blob Storage
+Standard adapter for uploading files to Azure Blob Storage:
+- SDK: `azure-storage-blob` (`BlobServiceClient`)
+- Auth: SAS Token retrieved from Azure Key Vault — never hardcode tokens
+- Use a `Protocol` to define the upload interface, allowing a simulate/local implementation for dev/testing
+- Apply retry with exponential backoff on upload calls (see `patterns.md` — Resilience)
+
+```python
+from azure.storage.blob import BlobServiceClient
+
+client = BlobServiceClient(account_url=account_url, credential=sas_token)
+blob_client = client.get_blob_client(container=container_name, blob=blob_path)
+blob_client.upload_blob(content, overwrite=True)
+```
 
 ## Data exposition — GraphQL API
 Access levels on Silver lakehouse views (`api` schema):
