@@ -34,6 +34,18 @@ A domain function never knows where data comes from or goes. An adapter never co
 - Include context (IDs, operation names) — never log raw credentials or PII
 - Level discipline: `DEBUG` for internals, `INFO` for operations, `WARNING` for recoverable issues, `ERROR` for failures
 
+## Resilience
+- Wrap external service calls (SFTP, REST API, Azure Blob, etc.) with retry + exponential backoff + jitter
+- Parameters: `max_retries` (default 3), `backoff_factor` (default 2.0), base delay (default 1s)
+- Jitter: add random noise to avoid thundering herd (`delay * (0.5 + random())`)
+- Raise the original exception after all retries are exhausted — never swallow the final failure
+- Implement as a decorator to keep call sites clean:
+  ```python
+  @retry_with_exponential_backoff(max_retries=3, backoff_factor=2.0)
+  def upload(self, content: bytes, blob_name: str) -> str: ...
+  ```
+- Log each retry attempt at `WARNING` level with attempt number and delay
+
 ## Evolution
 This file captures only patterns with proven transversal value.
 Add a pattern here only when it has proven relevant across at least two projects.
