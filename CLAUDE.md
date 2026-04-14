@@ -7,8 +7,9 @@ It must be read at the start of every session involving any of his projects.
 ## Session initialization — required
 1. Read `general/python.md`
 2. Read `general/git.md`
-3. Read `general/patterns.md`
-4. Read `decisions/README.md` (ADR index)
+3. Read `general/cli.md`
+4. Read `general/patterns.md`
+5. Read `decisions/README.md` (ADR index)
 
 If the session involves starting a new project, read `playbooks/start-new-project-interactive.md` and follow its instructions exactly.
 
