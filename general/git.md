@@ -22,6 +22,9 @@ Rules:
 - **Never** add Co-Authored-By: Claude
 - Breaking changes: `feat!:` or `BREAKING CHANGE:` in footer
 - One logical change per commit — no "fix everything" commits
+- For any commit that includes Python files (`*.py`), run `ruff format` before staging and committing.
+- Mandatory sequence for Python changes: `uv run ruff format .` then `git add` then `git commit`.
+- It is forbidden to commit Python code before formatting; if formatting introduces changes, include them in the same logical commit (or redo the commit).
 
 ## Merge requests
 - MR mandatory to merge into `main` — no direct commits

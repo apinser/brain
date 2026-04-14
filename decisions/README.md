@@ -4,9 +4,9 @@
 
 | # | Title | Status | Date |
 |---|-------|--------|------|
-| — | — | — | — |
+| 0001 | Require Ruff format before Python commits | Accepted | 2026-04-14 |
 
-**Next number: 0001**
+**Next number: 0002**
 
 ## Format
 Files: `ADR-XXXX-title-in-kebab-case.md`
