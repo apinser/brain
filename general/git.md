@@ -19,6 +19,7 @@ Rules:
 - Format: [Conventional Commits](https://www.conventionalcommits.org/)
 - Types: `feat`, `fix`, `chore`, `docs`, `refactor`, `test`, `ci`
 - Subject line: imperative, lowercase, no trailing period, max 72 chars
+- **Never** add Co-Authored-By: Claude
 - Breaking changes: `feat!:` or `BREAKING CHANGE:` in footer
 - One logical change per commit — no "fix everything" commits
 
